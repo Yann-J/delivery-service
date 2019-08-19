@@ -30,7 +30,7 @@ Graph.prototype.routeCost = function(route) {
     return totalDistance;
 };
 
-Graph.prototype.allRoutes = function(from, to, maxHops=Infinity, canRepeat=false) {
+Graph.prototype.allRoutes = function(from, to, maxHops=Infinity, maxCost=Infinity, canRepeat=false) {
     // brute iteration...
     let allRoutes = [[from]];
     let matchingRoutes = [];
@@ -47,7 +47,7 @@ Graph.prototype.allRoutes = function(from, to, maxHops=Infinity, canRepeat=false
             }
             // Return an array of the initial route + all the eligible next hops (if there are none, return empty array)
             return _.map(nextNodes, next => _.concat(route, next));
-        }), route => route.length); // remove empty routes
+        }), route => route.length && (maxCost == Infinity || this.routeCost(route) < maxCost)); // remove empty and expensive routes
 
         // Add all routes that end with our destination to the list of solutions
         matchingRoutes = _.concat(matchingRoutes, _.filter(allRoutes, route => _.last(route)==to));

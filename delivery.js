@@ -23,8 +23,8 @@ getShortestRoute = (a,b) => {
     console.log(route ? route.join('') + ' (' + myGraph.routeCost(route) + ')' : `Could not find a route from ${a} to ${b}`);
 }
 
-getAllRoutes = (a,b,max,canRepeat) => {
-    let routes = myGraph.allRoutes(a,b,max,canRepeat);
+getAllRoutes = (a,b,maxHops,maxDistance,canRepeat) => {
+    let routes = myGraph.allRoutes(a,b,maxHops,maxDistance,canRepeat);
     console.log(`Found ${routes.length} matching routes:`);
     routes.forEach(route => console.log(route.join('')));
 }
@@ -64,7 +64,7 @@ require('yargs')
     })
 
     // Show all routes
-    .command('routes <from> <to> [maxHops] [canRepeat]', 'Computes all possible routes', (yargs) => {
+    .command('routes <from> <to> [max] [distance] [canRepeat]', 'Computes all possible routes', (yargs) => {
         yargs.positional('from', {
             type: 'string',
             required: true,
@@ -75,16 +75,19 @@ require('yargs')
             required: true,
             coerce: _.toUpper,
             describe: 'TO node name'
-        }).positional('maxHops', {
+        }).positional('max', {
             type: 'number',
-            describe: 'Max number of hops'
+            describe: 'Maximum'
+        }).positional('distance', {
+            type: 'boolean',
+            describe: 'Interpret maximum value as total route distance instead of number of hops'
         }).positional('canRepeat', {
             type: 'boolean',
             describe: 'Allow revisiting previous nodes?'
         })
     },
     function (argv) {
-        getAllRoutes(argv.from, argv.to, argv.maxHops, argv.canRepeat);
+        getAllRoutes(argv.from, argv.to, argv.distance ? Infinity : argv.max, argv.distance ? argv.max : Infinity, argv.canRepeat);
     })
     
     .demandCommand()
