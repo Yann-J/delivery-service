@@ -30,7 +30,7 @@ getAllRoutes = (a,b,max,canRepeat) => {
 }
 
 require('yargs')
-    .usage('$0 <cmd> [args]','Usage')
+    .detectLocale(false)  //just to be consistent since anyway the app isn't localized
 
     // Compute route costs
     .command('routecost <route>', 'Computes the total distance of a route', (yargs) => {
@@ -87,5 +87,6 @@ require('yargs')
         getAllRoutes(argv.from, argv.to, argv.maxHops, argv.canRepeat);
     })
     
+    .demandCommand()
     .help()
     .argv;
