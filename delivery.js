@@ -1,6 +1,7 @@
 const graph = require("./graph/index.js");
 const _ = require("lodash");
 
+// Just use simple objects as dictionaries
 const myDistances = {
     "A": {"B":1,"C":4,"D":10},
     "B": {"E":3},
@@ -29,6 +30,7 @@ getAllRoutes = (a,b,maxHops,maxDistance,canRepeat) => {
     routes.forEach(route => console.log(route.join('')));
 }
 
+// Read command arguments and run the appropriate process
 require('yargs')
     .detectLocale(false)  //just to be consistent since anyway the app isn't localized
 
@@ -37,7 +39,7 @@ require('yargs')
         yargs.positional('route', {
             type: 'string',
             required: true,
-            coerce: _.toUpper,
+            coerce: _.toUpper,  // TODO: we could also strip characters...
             describe: 'route path in format ABCD'
         })
     },
