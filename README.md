@@ -14,24 +14,45 @@ node delivery.js help
 ## How to use
 
 ```
-node delivery.js --help
+$ node delivery.js --help
 
-delivery.js <cmd> [args]
-
-Usage
+delivery.js <command>
 
 Commands:
-  delivery.js <cmd> [args]                  Usage                      [default]
   delivery.js routecost <route>             Computes the total distance of a
                                             route
   delivery.js shortest <from> <to>          Computes the shortest route between
                                             2 points
-  delivery.js routes <from> <to> [maxHops]  Computes all possible routes
-  [canRepeat]
+  delivery.js routes <from> <to> [max]      Computes all possible routes
+  [distance] [canRepeat]
 
 Options:
   --version  Show version number                                       [boolean]
   --help     Show help                                                 [boolean]
+```
+
+Specific options for the route list command:
+
+```
+$ node delivery.js routes
+
+delivery.js routes <from> <to> [max] [distance] [canRepeat]
+
+Computes all possible routes
+
+Positionals:
+  from       FROM node name                                  [string] [required]
+  to         TO node name                                    [string] [required]
+  max        Maximum                                                    [number]
+  distance   Interpret maximum value as total route distance instead of number
+             of hops                                                   [boolean]
+  canRepeat  Allow revisiting previous nodes?                          [boolean]
+
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+
+Not enough non-option arguments: got 0, need at least 2
 ```
 
 ## How to test
@@ -101,56 +122,56 @@ No Such Route
 
 yann$ node delivery.js routes e d 4
 Found 4 matching routes:
-EAD
-EACD
-EACFD
-EBEAD
+EAD (12)
+EACD (10)
+EACFD (9)
+EBEAD (18)
 
 yann$ node delivery.js routes e e
 Found 11 matching routes:
-EBE
-EABE
-EADE
-EACDE
-EACFDE
-EADEBE
-EBEADE
-EACDEBE
-EBEACDE
-EACFDEBE
-EBEACFDE
+EBE (6)
+EABE (6)
+EADE (13)
+EACDE (11)
+EACFDE (10)
+EADEBE (19)
+EBEADE (19)
+EACDEBE (17)
+EBEACDE (17)
+EACFDEBE (16)
+EBEACFDE (16)
 
 yann$ node delivery.js routes e e 20 true true
 Found 29 matching routes:
-EBE
-EABE
-EADE
-EACDE
-EBEBE
-EABEBE
-EACFDE
-EADEBE
-EBEABE
-EBEADE
-EABEABE
-EABEADE
-EACDEBE
-EADEABE
-EBEACDE
-EBEBEBE
-EABEACDE
-EABEBEBE
-EACDEABE
-EACFDEBE
-EBEABEBE
-EBEACFDE
-EBEBEABE
-EABEABEBE
-EABEACFDE
-EABEBEABE
-EACFDEABE
-EBEABEABE
-EABEABEABE
+EBE (6)
+EABE (6)
+EADE (13)
+EACDE (11)
+EBEBE (12)
+EABEBE (12)
+EACFDE (10)
+EADEBE (19)
+EBEABE (12)
+EBEADE (19)
+EABEABE (12)
+EABEADE (19)
+EACDEBE (17)
+EADEABE (19)
+EBEACDE (17)
+EBEBEBE (18)
+EABEACDE (17)
+EABEBEBE (18)
+EACDEABE (17)
+EACFDEBE (16)
+EBEABEBE (18)
+EBEACFDE (16)
+EBEBEABE (18)
+EABEABEBE (18)
+EABEACFDE (16)
+EABEBEABE (18)
+EACFDEABE (16)
+EBEABEABE (18)
+EABEABEABE (18)
 
 yann$ node delivery.js shortest e d
 EACFD (9)

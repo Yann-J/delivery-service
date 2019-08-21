@@ -14,6 +14,8 @@ const myDistances = {
 
 let myGraph = new graph(myDistances);
 
+formatRoute = (route) => _.isArray(route) ? (route.join('')+' ('+myGraph.routeCost(route)+')') : 'No Such Route';
+
 getRouteCost = (route) => {
     let cost = myGraph.routeCost(route);
     console.log(cost === undefined ? 'No Such Route' : cost);
@@ -21,13 +23,13 @@ getRouteCost = (route) => {
 
 getShortestRoute = (a,b) => {
     let route = myGraph.shortestRoute(a,b);
-    console.log(route ? route.join('') + ' (' + myGraph.routeCost(route) + ')' : `Could not find a route from ${a} to ${b}`);
+    console.log(route ? formatRoute(route) : `Could not find a route from ${a} to ${b}`);
 }
 
 getAllRoutes = (a,b,maxHops,maxDistance,canRepeat) => {
     let routes = myGraph.allRoutes(a,b,maxHops,maxDistance,canRepeat);
     console.log(`Found ${routes.length} matching routes:`);
-    routes.forEach(route => console.log(route.join('')));
+    routes.forEach(route => console.log(formatRoute(route)));
 }
 
 // Read command arguments and run the appropriate process
